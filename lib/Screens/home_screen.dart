@@ -20,98 +20,126 @@ class HomeScreen extends StatelessWidget {
       "Rentl represantataion on your behalf",
       "Relationship manager"
     ];
+
     return Scaffold(
       appBar: AppBar(),
       drawer: const Drawer(),
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                "• Get quickly",
-                style: style,
+      body: SingleChildScrollView(
+        child: SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Card(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  side: BorderSide(color: Colors.grey, width: 0.5)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, childAspectRatio: 1.8),
-                      itemCount: 4,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Cardmodel(
-                            quility: item[index], price: price[index]);
-                      },
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text("+18% GST"),
-                          Text("T & C apply"),
-                        ],
-                      ),
-                    ),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  "• Get quickly",
+                  style: style,
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                "• Benifit Provided",
-                style: style,
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            const Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 1,
-                  crossAxisSpacing: 1,
-                  childAspectRatio: 3.5),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                return BenifitModel(
-                  radiovalue: price[index],
-                  benifits: item[index],
-                  index: index.toString(),
-                  istrue: false,
-                );
-              },
-            ),
-          ],
-        ),
-      )),
+              Card(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    side: BorderSide(color: Colors.grey, width: 0.5)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2, childAspectRatio: 1.8),
+                        itemCount: 4,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Cardmodel(
+                              quility: item[index], price: price[index]);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text("+18% GST"),
+                            Text("T & C apply"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  "• Benifit Provided",
+                  style: style,
+                ),
+              ),
+              const Divider(),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 15,
+                    childAspectRatio: 2.5),
+                itemCount: benifits.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return BenifitModel(
+                    radiovalue: benifits[index],
+                    benifits: benifits[index],
+                    index: index.toString(),
+                    istrue: false,
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(border: Border.all()),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Subscribe Now",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        )),
+      ),
     );
   }
 }
@@ -207,21 +235,25 @@ class _BenifitModelState extends State<BenifitModel> {
           width: 5,
         ),
         widget.istrue
-            ? Icon(
+            ? const Icon(
                 Icons.check,
                 color: Colors.green,
               )
-            : Icon(
+            : const Icon(
                 Icons.check,
                 color: Colors.white,
               ),
         const SizedBox(
           width: 5,
         ),
-        Text(
-          widget.benifits,
-          maxLines: 2,
-          overflow: TextOverflow.clip,
+        Flexible(
+          child: Container(
+            child: Text(
+              widget.benifits,
+              overflow: TextOverflow.fade,
+              style: const TextStyle(fontSize: 17),
+            ),
+          ),
         )
       ],
     );
