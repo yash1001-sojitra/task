@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:task/Screens/payment.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -94,23 +95,26 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 15,
-                    childAspectRatio: 2.5),
-                itemCount: benifits.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return BenifitModel(
-                    radiovalue: benifits[index],
-                    benifits: benifits[index],
-                    index: index.toString(),
-                    istrue: false,
-                  );
-                },
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 15,
+                      childAspectRatio: 2.5),
+                  itemCount: benifits.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return BenifitModel(
+                      radiovalue: benifits[index],
+                      benifits: benifits[index],
+                      index: index.toString(),
+                      istrue: false,
+                    );
+                  },
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -119,16 +123,27 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.50,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(border: Border.all()),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      "Subscribe Now",
-                      style: TextStyle(fontSize: 20),
+              InkWell(
+                hoverColor: Colors.green,
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PaymentScreen(
+                                amount: price[0],
+                              )));
+                },
+                child: Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(border: Border.all()),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "Subscribe Now",
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
                 ),
