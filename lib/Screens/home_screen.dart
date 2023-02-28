@@ -1,13 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task/Screens/payment.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
   Widget build(BuildContext context) {
-    final style = const TextStyle(fontSize: 18);
+    const style = TextStyle(fontSize: 18);
+
     List item = ["Compact", "Compact Pro", "Premium", "Premium Plus"];
     List price = ["1599", "3599", "5599", "6599"];
     List benifits = [
@@ -64,7 +69,11 @@ class HomeScreen extends StatelessWidget {
                         itemCount: 4,
                         itemBuilder: (BuildContext context, int index) {
                           return Cardmodel(
-                              quility: item[index], price: price[index]);
+                            index,
+                            quality: item[index],
+                            price: price[index],
+                            value: index,
+                          );
                         },
                       ),
                       const SizedBox(
@@ -160,57 +169,73 @@ class HomeScreen extends StatelessWidget {
 }
 
 class Cardmodel extends StatefulWidget {
-  String quility;
+  int index;
+  String quality;
   String price;
-  Cardmodel({required this.quility, required this.price, super.key});
+  int value;
+  Cardmodel(this.index,
+      {required this.quality,
+      required this.price,
+      required this.value,
+      super.key});
 
   @override
   State<Cardmodel> createState() => _CardmodelState();
 }
 
 class _CardmodelState extends State<Cardmodel> {
+  int selectedIndex = 1;
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.grey[100],
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                widget.quility,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedIndex = widget.index;
+        });
+      },
+      child: Card(
+        color: Colors.grey[100],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  widget.quality,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '\u{20B9} ${widget.price}',
-                    style: const TextStyle(fontSize: 17),
-                  ),
-                  Radio(
-                      value: widget.price,
-                      groupValue: widget.price,
-                      onChanged: ((value) {
-                        setState(() {
-                          widget.price == value;
-                        });
-                      }))
-                ],
+              const SizedBox(
+                height: 10,
               ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '\u{20B9} ${widget.price}',
+                      style: const TextStyle(fontSize: 17),
+                    ),
+                    Radio(
+                        value: widget.value,
+                        groupValue: selectedIndex,
+                        onChanged: ((val) {
+                          setState(() {
+                            // vals == val;
+                            selectedIndex == val;
+                          });
+                        }))
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
