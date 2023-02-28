@@ -178,47 +178,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       childAspectRatio: 2.5),
                   itemCount: benifits.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Row(
-                      children: [
-                        Container(
-                            decoration: const BoxDecoration(
-                              border: Border(right: BorderSide()),
-                            ),
-                            child: Text(
-                              "$index ",
-                              style: const TextStyle(fontSize: 15),
-                            )),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        (radioValue == 0
-                                    ? compact
-                                    : radioValue == 1
-                                        ? compactpro
-                                        : radioValue == 2
-                                            ? premium
-                                            : premiumplus)
-                                .contains(index)
-                            ? const Icon(
-                                Icons.check,
-                                color: Colors.green,
-                              )
-                            : const Icon(
-                                Icons.check,
-                                color: Colors.white,
-                              ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Flexible(
-                          child: Text(
-                            benifits[index],
-                            overflow: TextOverflow.fade,
-                            style: const TextStyle(fontSize: 17),
-                          ),
-                        )
-                      ],
-                    );
+                    return cardmodel(
+                        index: index,
+                        radioValue: radioValue,
+                        compact: compact,
+                        compactpro: compactpro,
+                        premium: premium,
+                        premiumplus: premiumplus,
+                        benifits: benifits);
                   },
                 ),
               ),
@@ -264,27 +231,69 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// class BenifitModel extends StatefulWidget {
-//   String radiovalue;
-//   String benifits;
-//   String index;
-//   List istrue;
-//   BenifitModel(
-//       {required this.radiovalue,
-//       required this.benifits,
-//       required this.index,
-//       required this.istrue,
-//       super.key});
+class cardmodel extends StatelessWidget {
+  const cardmodel({
+    Key? key,
+    required this.index,
+    required this.radioValue,
+    required this.compact,
+    required this.compactpro,
+    required this.premium,
+    required this.premiumplus,
+    required this.benifits,
+  }) : super(key: key);
 
-//   @override
-//   State<BenifitModel> createState() => _BenifitModelState();
-// }
+  final int radioValue;
+  final List compact;
+  final List compactpro;
+  final List premium;
+  final List premiumplus;
+  final List benifits;
+  final int index;
 
-// class _BenifitModelState extends State<BenifitModel> {
-//   late List istruedata = widget.istrue;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return;
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+            decoration: const BoxDecoration(
+              border: Border(right: BorderSide()),
+            ),
+            child: Text(
+              "${index + 1} ",
+              style: const TextStyle(fontSize: 15),
+            )),
+        const SizedBox(
+          width: 5,
+        ),
+        (radioValue == 0
+                    ? compact
+                    : radioValue == 1
+                        ? compactpro
+                        : radioValue == 2
+                            ? premium
+                            : premiumplus)
+                .contains(index + 1)
+            ? Icon(
+                Icons.check_circle,
+                size: 28,
+                color: Colors.green[800],
+              )
+            : const Icon(
+                Icons.check,
+                color: Colors.white,
+              ),
+        const SizedBox(
+          width: 5,
+        ),
+        Flexible(
+          child: Text(
+            benifits[index],
+            overflow: TextOverflow.fade,
+            style: const TextStyle(fontSize: 17),
+          ),
+        )
+      ],
+    );
+  }
+}
