@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List compact = [1, 2, 3];
   List compactpro = [1, 3, 5, 6, 7];
-  List Premium = [1, 2, 3, 4, 5];
+  List premium = [1, 2, 3, 4, 5];
   List premiumplus = [1, 2, 3, 4, 5, 8, 9];
 
   @override
@@ -178,11 +178,46 @@ class _HomeScreenState extends State<HomeScreen> {
                       childAspectRatio: 2.5),
                   itemCount: benifits.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return BenifitModel(
-                      radiovalue: benifits[index],
-                      benifits: benifits[index],
-                      index: index.toString(),
-                      istrue: true,
+                    return Row(
+                      children: [
+                        Container(
+                            decoration: const BoxDecoration(
+                              border: Border(right: BorderSide()),
+                            ),
+                            child: Text(
+                              "$index ",
+                              style: const TextStyle(fontSize: 15),
+                            )),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        (radioValue == 0
+                                    ? compact
+                                    : radioValue == 1
+                                        ? compactpro
+                                        : radioValue == 2
+                                            ? premium
+                                            : premiumplus)
+                                .contains(index)
+                            ? const Icon(
+                                Icons.check,
+                                color: Colors.green,
+                              )
+                            : const Icon(
+                                Icons.check,
+                                color: Colors.white,
+                              ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Flexible(
+                          child: Text(
+                            benifits[index],
+                            overflow: TextOverflow.fade,
+                            style: const TextStyle(fontSize: 17),
+                          ),
+                        )
+                      ],
                     );
                   },
                 ),
@@ -201,19 +236,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => PaymentScreen(
-                                amount: price[0],
+                                amount: price[radioValue],
                               )));
                 },
                 child: Center(
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.50,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(border: Border.all()),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "Subscribe Now",
-                        style: TextStyle(fontSize: 20),
+                        "Subscribe for ${item[radioValue]}",
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ),
                   ),
@@ -230,135 +264,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class Cardmodel extends StatefulWidget {
-  int index;
-  String quality;
-  String price;
+// class BenifitModel extends StatefulWidget {
+//   String radiovalue;
+//   String benifits;
+//   String index;
+//   List istrue;
+//   BenifitModel(
+//       {required this.radiovalue,
+//       required this.benifits,
+//       required this.index,
+//       required this.istrue,
+//       super.key});
 
-  Cardmodel(this.index,
-      {required this.quality, required this.price, super.key});
+//   @override
+//   State<BenifitModel> createState() => _BenifitModelState();
+// }
 
-  @override
-  State<Cardmodel> createState() => _CardmodelState();
-}
+// class _BenifitModelState extends State<BenifitModel> {
+//   late List istruedata = widget.istrue;
 
-class _CardmodelState extends State<Cardmodel> {
-  int radioValue = 1;
-
-  void _handleRadioValueChanged(int value) {
-    setState(() {
-      radioValue = value;
-      print(radioValue);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          // selectedIndex = widget.index;
-        });
-      },
-      child: Card(
-        color: Colors.grey[100],
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  widget.quality,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '\u{20B9} ${widget.price}',
-                      style: const TextStyle(fontSize: 17),
-                    ),
-                    Radio<int>(
-                        value: widget.index,
-                        groupValue: radioValue,
-                        onChanged: ((value) {
-                          _handleRadioValueChanged(value!);
-                        }))
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class BenifitModel extends StatefulWidget {
-  String radiovalue;
-  String benifits;
-  String index;
-  bool istrue;
-  BenifitModel(
-      {required this.radiovalue,
-      required this.benifits,
-      required this.index,
-      required this.istrue,
-      super.key});
-
-  @override
-  State<BenifitModel> createState() => _BenifitModelState();
-}
-
-class _BenifitModelState extends State<BenifitModel> {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-            decoration: const BoxDecoration(
-              border: Border(right: BorderSide()),
-            ),
-            child: Text(
-              "${widget.index} ",
-              style: const TextStyle(fontSize: 15),
-            )),
-        const SizedBox(
-          width: 5,
-        ),
-        widget.istrue
-            ? const Icon(
-                Icons.check,
-                color: Colors.green,
-              )
-            : const Icon(
-                Icons.check,
-                color: Colors.white,
-              ),
-        const SizedBox(
-          width: 5,
-        ),
-        Flexible(
-          child: Container(
-            child: Text(
-              widget.benifits,
-              overflow: TextOverflow.fade,
-              style: const TextStyle(fontSize: 17),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return;
+//   }
+// }
